@@ -1,0 +1,17 @@
+{
+    "name": "green-view-concepts",
+    "version": "1.0.0",
+    "scripts": {
+        "dev": "serve . -l 3000 -s",
+        "start": "serve . -s"
+    },
+    "devDependencies": {
+        "serve": "^14.2.6"
+    },
+    "description": "",
+    "main": "script.js",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs"
+}
