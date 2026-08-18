@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Review your plants and pots, then send your order straight to Green View Concepts Nursery on WhatsApp.">
+  <meta name="robots" content="noindex">
+  <title>Checkout — Green View Concepts Nursery, Indore</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%232d5a27'/%3E%3Cpath d='M50 22C50 22 26 44 26 64C26 76 37 84 50 84C63 84 74 76 74 64C74 44 50 22 50 22Z' fill='%23a8c49e'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="checkout-page">
+
+  <!-- ═══ SLIM NAVBAR ═══ -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-logo" href="index.html">
+        <div class="navbar-logo-icon">🌿</div>
+        <div class="navbar-logo-text">
+          <h1>Green View Concepts</h1>
+          <span>Plant Nursery • Indore</span>
+        </div>
+      </a>
+      <div class="navbar-cta">
+        <a class="checkout-back" href="index.html">← Keep shopping</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="checkout-main">
+    <div class="checkout-inner">
+
+      <header class="checkout-head" id="checkout-head">
+        <div class="section-eyebrow">Step 2 of 3</div>
+        <h2 class="section-title">Check your <em>order</em></h2>
+        <p class="checkout-lede">Change quantities, add your details, and we'll turn it into a PDF order summary that goes straight to the nursery on WhatsApp. No payment happens here — we confirm the total and delivery with you first.</p>
+      </header>
+
+      <div class="checkout-grid" id="checkout-live">
+
+        <!-- ─── LEFT: cart ─── -->
+        <section class="checkout-col-main">
+          <h3 class="block-title">Your items</h3>
+          <div id="checkout-lines"></div>
+
+          <div class="suggest-block" id="suggest-block" hidden>
+            <h3 class="block-title">Goes well with this</h3>
+            <div class="suggest-row" id="suggest-row"></div>
+          </div>
+
+          <div class="notes-block" id="notes-block">
+            <h3 class="block-title">Anything we should know?</h3>
+            <label class="field">
+              <span class="field-label">Order notes <em>optional</em></span>
+              <textarea id="order-notes" class="contact-textarea" rows="3"
+                placeholder="Pot colour preference, delivery timing, a landmark near your address…"></textarea>
+            </label>
+            <label class="check-row">
+              <input type="checkbox" id="is-gift">
+              <span>This order is a gift</span>
+            </label>
+            <label class="field" id="gift-field" hidden>
+              <span class="field-label">Message on the gift card</span>
+              <input type="text" id="gift-message" class="contact-input" maxlength="120"
+                placeholder="Happy housewarming, Meera!">
+            </label>
+          </div>
+        </section>
+
+        <!-- ─── RIGHT: summary + details ─── -->
+        <aside class="checkout-col-side">
+          <div class="summary-card">
+            <h3 class="block-title">Order summary</h3>
+            <div class="summary-rows" id="summary-rows"></div>
+
+            <h3 class="block-title spaced">Your details</h3>
+
+            <label class="field">
+              <span class="field-label">Full name <em>required</em></span>
+              <input type="text" id="cust-name" class="contact-input" autocomplete="name" placeholder="Meera Sharma">
+              <span class="field-error" id="err-name"></span>
+            </label>
+
+            <label class="field">
+              <span class="field-label">WhatsApp number <em>required</em></span>
+              <div class="phone-field">
+                <span class="phone-prefix">+91</span>
+                <input type="tel" id="cust-phone" class="contact-input" inputmode="numeric"
+                  maxlength="10" autocomplete="tel-national" placeholder="98765 43210">
+              </div>
+              <span class="field-hint">We reply here to confirm the total and timing.</span>
+              <span class="field-error" id="err-phone"></span>
+            </label>
+
+            <label class="field">
+              <span class="field-label">Email <em>optional</em></span>
+              <input type="email" id="cust-email" class="contact-input" autocomplete="email" placeholder="you@example.com">
+              <span class="field-error" id="err-email"></span>
+            </label>
+
+            <fieldset class="field radio-set">
+              <legend class="field-label">How would you like to get it?</legend>
+              <label class="radio-row">
+                <input type="radio" name="fulfilment" value="pickup" checked>
+                <span><strong>Pick up at the nursery</strong><em>Bangali Square, Ring Road · 10 AM – 9 PM</em></span>
+              </label>
+              <label class="radio-row">
+                <input type="radio" name="fulfilment" value="delivery">
+                <span><strong>Deliver in Indore</strong><em id="delivery-note-text">Charge confirmed on WhatsApp</em></span>
+              </label>
+            </fieldset>
+
+            <label class="field" id="address-field" hidden>
+              <span class="field-label">Delivery address <em>required</em></span>
+              <textarea id="cust-address" class="contact-textarea" rows="3"
+                placeholder="Flat / house, street, area, landmark, pin code"></textarea>
+              <span class="field-error" id="err-address"></span>
+            </label>
+
+            <button class="btn-forest checkout-submit" id="place-order">Create PDF &amp; send on WhatsApp</button>
+            <p class="summary-fineprint">You'll get the PDF on your device, and WhatsApp will open with your order already typed out. Nothing is charged online.</p>
+          </div>
+        </aside>
+      </div>
+
+      <!-- ─── EMPTY STATE ─── -->
+      <section class="checkout-empty" id="checkout-empty" hidden>
+        <div class="cart-empty-icon">🪴</div>
+        <h3 class="serif">There's nothing in your cart yet</h3>
+        <p>Add a few plants or pots and they'll show up here, ready to send.</p>
+        <a class="btn-forest" href="index.html#gallery">Browse the nursery</a>
+      </section>
+
+      <!-- ─── SUCCESS ─── -->
+      <section class="order-done" id="order-done" hidden>
+        <div class="section-eyebrow center">Step 3 of 3</div>
+        <div class="order-done-badge">✓</div>
+        <h2 class="section-title" style="text-align:center">Order <em>ready to send</em></h2>
+        <p class="order-done-id">Order <strong id="done-order-id"></strong></p>
+
+        <ol class="done-steps">
+          <li id="pdf-step">
+            <span class="done-step-num">1</span>
+            <div>
+              <strong>Your PDF has been saved</strong>
+              <p>Check your Downloads folder. Keep it for your records.</p>
+              <button class="btn-outline btn-sm" id="redownload">Download the PDF again</button>
+            </div>
+          </li>
+          <li>
+            <span class="done-step-num">2</span>
+            <div>
+              <strong>WhatsApp is opening with your order typed out</strong>
+              <p>If the tab was blocked, open it here. Press send in WhatsApp to place the order.</p>
+              <button class="btn-forest btn-sm" id="reopen-whatsapp">Open WhatsApp</button>
+            </div>
+          </li>
+          <li>
+            <span class="done-step-num">3</span>
+            <div>
+              <strong>Attach the PDF in the chat</strong>
+              <p>Tap the 📎 clip in WhatsApp, pick the downloaded PDF, and send it along with the message. This step is optional — the message already has everything.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="done-actions">
+          <button class="btn-outline btn-sm" id="copy-order">Copy order text</button>
+          <a class="btn-outline btn-sm" href="index.html">Keep shopping</a>
+          <button class="btn-outline btn-sm danger" id="clear-cart">Clear cart &amp; start fresh</button>
+        </div>
+        <p class="order-done-note">Your cart is still saved, in case you want to change something and send it again.</p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer checkout-footer">
+    <div class="footer-inner">
+      <div class="footer-bottom" style="border:none;padding-top:0">
+        <span>© 2026 Green View Concepts Nursery, Indore.</span>
+        <span>📞 +91 96177 65000 · 🕐 10 AM – 9 PM, all week</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script src="catalog.js"></script>
+  <script src="cart.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>

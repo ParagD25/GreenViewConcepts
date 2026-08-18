@@ -2,8 +2,8 @@
     "name": "green-view-concepts",
     "version": "1.0.0",
     "scripts": {
-        "dev": "serve . -l 3000 -s",
-        "start": "serve . -s"
+        "dev": "serve . -l 3000",
+        "start": "serve ."
     },
     "devDependencies": {
         "serve": "^14.2.6"
