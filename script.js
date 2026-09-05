@@ -870,7 +870,7 @@
            </div>
          </div>` : ""}
    
-         <p class="modal-note">Every order includes a complete care guide. Questions about this one? WhatsApp us before you order.</p>
+         <p class="modal-note">Questions about this one? WhatsApp us before you order.</p>
        </div>`;
    
      modal.classList.add("open");

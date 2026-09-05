@@ -563,6 +563,37 @@ function showAll(w, d) {
       /9FB Scheme No 94/.test($(d, ".contact-detail-value").textContent));
   }
 
+  /* ═══════════════════════════════════════════════════════ */
+  section("17. Social links");
+  {
+    const { d } = await boot();
+
+    const hrefs = $$(d, ".contact-socials-grid a").map(a => a.getAttribute("href"));
+    check("three socials in the contact block", hrefs.length === 3, hrefs.join(" | "));
+    check("Instagram, WhatsApp and email only",
+      hrefs.some(h => /instagram\.com/.test(h)) &&
+      hrefs.some(h => /wa\.me/.test(h)) &&
+      hrefs.some(h => /^mailto:/.test(h)), hrefs.join(" | "));
+    check("no leftover networks",
+      !hrefs.some(h => /facebook|youtube|pinterest|x\.com|twitter/i.test(h)), hrefs.join(" | "));
+    check("real icons, not emoji", $$(d, ".contact-socials-grid a svg").length === 3);
+
+    const all = $$(d, "a[href^='https://wa.me'], a[href^='mailto:']").map(a => a.getAttribute("href"));
+    check("every WhatsApp link uses the shop's number",
+      all.filter(h => /wa\.me/.test(h)).every(h => h.indexOf("919617765000") !== -1),
+      all.join(" | "));
+    check("email links point at the shop inbox",
+      all.filter(h => /mailto/.test(h)).every(h => /greenviewconceptsnursery@gmail\.com/.test(h)));
+
+    const footer = $$(d, ".footer-socials a").map(a => a.getAttribute("href"));
+    check("footer carries the same three", footer.length === 3, footer.join(" | "));
+    check("the handles are clickable", $$(d, ".footer-social-handles a").length === 3);
+
+    const links = $$(d, ".footer-link").map(b => b.dataset.scrollTo);
+    check("no footer link points at a section that was removed",
+      links.every(t => !!d.getElementById(t)), links.join(" | "));
+  }
+
   console.log("\n" + "─".repeat(56));
   console.log(pass + " passed, " + fail + " failed");
   if (fail) { console.log("\nFailures:"); failures.forEach(f => console.log("  • " + f)); process.exit(1); }

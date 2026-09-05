@@ -688,3 +688,13 @@ body.no-scroll{overflow:hidden}
   .gift-toggle{padding:15px 16px}
   .gift-toggle-text strong{font-size:19px}
 }
+
+/* ─── Social icons ────────────────────────────────────────── */
+.social-icon-btn,.footer-socials .social-link{display:inline-flex;align-items:center;justify-content:center}
+.social-icon-btn svg{width:20px;height:20px}
+.footer-socials .social-link svg{width:18px;height:18px}
+
+.footer-social-handles{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.footer-social-handles a{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.62);transition:color .3s}
+.footer-social-handles a:hover{color:#fff}
+.footer-social-handles svg{width:15px;height:15px;flex:0 0 auto;opacity:.8}
