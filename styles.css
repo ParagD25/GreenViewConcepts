@@ -139,7 +139,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--forest)!important}
 .carousel-slides{position:relative;width:100%;height:100%}
 .carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease-in-out;display:flex;align-items:center;justify-content:center}
 .carousel-slide.active{opacity:1}
-.carousel-slide img{width:100%;height:100%;object-fit:cover}
+.carousel-slide img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center}
 .carousel-emoji{font-size:72px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15));transition:transform .5s}
 .plant-card:hover .carousel-emoji{transform:scale(1.15) rotate(-5deg)}
 
@@ -523,4 +523,168 @@ body.no-scroll{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .fade-up{opacity:1;transform:none}
+}
+/* ═══════════════════════════════════════════════════════════
+   LIVE CATALOG — categories, stock banners, pot suggestions
+   Same vocabulary as the rest of the site: square corners,
+   forest green, uppercase micro-labels, Cormorant for headings.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Main tabs: All / Indoor / Outdoor / Pots ─── */
+.gallery-tag{display:inline-flex;align-items:center;gap:8px}
+.tag-count{font-style:normal;font-size:10px;font-weight:700;letter-spacing:.5px;padding:2px 7px;background:rgba(45,90,39,.09);color:var(--forest);min-width:20px;text-align:center}
+.gallery-tag.active .tag-count{background:rgba(255,255,255,.22);color:#fff}
+
+/* ─── Second row: plant categories inside a tab ─── */
+
+/* ─── Breadcrumb when a category is open ─── */
+.gallery-crumb{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(0,0,0,.07)}
+.crumb-back{background:none;border:none;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--forest);padding:6px 0;transition:opacity .3s}
+.crumb-back:hover{opacity:.6}
+.crumb-here{display:inline-flex;align-items:center;gap:10px;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--forest-deep);background:rgba(122,158,111,.16);border:1px solid rgba(122,158,111,.3);padding:7px 18px}
+.crumb-here em{font-style:normal;font-size:11px;font-family:'Outfit',sans-serif;font-weight:700;color:#fff;background:var(--forest);letter-spacing:.5px;padding:2px 8px}
+
+/* ─── Quiet note when the sheet couldn't be reached ─── */
+.gallery-status{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;padding:14px 18px;background:rgba(184,150,62,.07);border-left:3px solid var(--gold);font-size:13px;color:var(--charcoal-soft);line-height:1.6}
+.status-line{display:flex;align-items:flex-start;gap:10px}
+.status-line .status-dot{margin-top:6px}
+.gallery-status code{background:rgba(45,90,39,.08);padding:2px 7px;font-family:'Courier New',monospace;font-size:12px;color:var(--forest-deep)}
+.status-dot{flex:0 0 8px;width:8px;height:8px;border-radius:50%;background:var(--gold);animation:gentlePulse 2s ease infinite}
+
+/* ─── Show more ─── */
+.gallery-more{display:flex;justify-content:center;margin-top:34px}
+.gallery-cats{margin:0 0 44px}
+.gallery-cats .cat-card{cursor:pointer}
+
+/* ─── Category tiles are now buttons ─── */
+.cat-card{width:100%;font-family:'Outfit',sans-serif;color:inherit;display:block;cursor:pointer}
+.cat-card:focus-visible{outline:2px solid var(--forest);outline-offset:3px}
+
+/* ─── Product card additions ─── */
+.carousel-placeholder{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92}
+.carousel-slide .carousel-emoji{position:relative;z-index:1}
+.carousel-placeholder + .carousel-emoji{font-size:0}
+
+.card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.card-code{font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--sage);background:rgba(122,158,111,.12);padding:3px 9px}
+.card-size{font-size:11px;font-weight:500;letter-spacing:.6px;color:var(--charcoal-soft);border:1px solid rgba(0,0,0,.08);padding:2px 9px}
+.plant-card-price.muted{font-size:18px;color:var(--charcoal-soft);font-style:italic;font-weight:500}
+
+/* ─── Out of stock ─── */
+.stock-banner{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);z-index:7;background:rgba(26,61,22,.88);color:#fff;text-align:center;padding:11px 8px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;pointer-events:none}
+.plant-card.is-out .carousel{filter:grayscale(.55);opacity:.72}
+.plant-card.is-out .plant-card-price{color:var(--charcoal-soft)}
+.cart-line.is-out .cart-line-thumb{filter:grayscale(.5);opacity:.75}
+.cart-line-flag,.co-flag{font-size:11px;font-weight:600;letter-spacing:.4px;color:var(--terra);margin-top:2px}
+
+/* ─── Loading skeletons ─── */
+@keyframes shimmer{0%{opacity:.45}50%{opacity:.85}100%{opacity:.45}}
+.plant-card.skeleton{pointer-events:none}
+.skeleton-media{height:260px;background:var(--sand);animation:shimmer 1.5s ease infinite}
+.skeleton-line{height:12px;background:var(--sand);margin-bottom:10px;animation:shimmer 1.5s ease infinite}
+.skeleton-line.wide{width:78%;height:18px}
+.skeleton-line.short{width:44%}
+
+/* ─── Pot suggestions on the card ─── */
+.pot-suggest{margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,.07);opacity:0;transform:translateY(-6px);transition:opacity .25s ease,transform .25s ease}
+.pot-suggest.open{opacity:1;transform:translateY(0)}
+.pot-suggest-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.pot-suggest-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sage)}
+.pot-suggest-close{background:none;border:none;font-size:12px;color:var(--charcoal-soft);padding:2px 4px;line-height:1;transition:color .25s}
+.pot-suggest-close:hover{color:var(--forest)}
+.pot-suggest-note{font-size:12px;color:var(--charcoal-soft);line-height:1.5;margin-bottom:10px}
+/* A scrollable strip of real pots — you buy a pot on how it looks */
+.pot-card-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.pot-card-row::-webkit-scrollbar{height:5px}
+.pot-card-row::-webkit-scrollbar-thumb{background:rgba(45,90,39,.2)}
+.pot-card{flex:0 0 108px;scroll-snap-align:start;background:var(--white);border:1px solid rgba(0,0,0,.07);padding:8px;text-align:center;transition:all .3s}
+.pot-card:hover{border-color:var(--sage);transform:translateY(-2px)}
+.pot-card-media{position:relative;height:82px;margin-bottom:8px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pot-card-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pot-card-emoji{font-size:30px}
+.pot-card-photo ~ .pot-card-emoji{display:none}
+.pot-card-name{font-size:11.5px;font-weight:600;line-height:1.3;margin-bottom:2px}
+.pot-card-meta{font-size:11px;color:var(--charcoal-soft);margin-bottom:8px}
+.pot-card .btn-add.small{padding:8px 6px;font-size:10px;letter-spacing:1px}
+.modal-pot-thumb.pot-card-media{height:96px}
+.modal-pot-thumb .pot-card-emoji{font-size:40px}
+
+/* ─── Pot suggestions in the quick view ─── */
+.modal-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.modal-media{background:var(--sand)}
+.modal-media .carousel{position:absolute;inset:0;height:100%}
+/* In the detail view the whole photo matters more than filling the box,
+   so nothing is cropped away. */
+.modal-media .carousel-slide img{object-fit:contain;padding:10px}
+.modal-media .carousel-slide{background:rgba(255,255,255,.35);backdrop-filter:blur(2px)}
+.modal-media .stock-banner{top:50%}
+.modal-pots{margin-top:28px;padding-top:26px;border-top:1px solid rgba(0,0,0,.08)}
+.modal-pots-note{font-size:13px;color:var(--charcoal-soft);line-height:1.6;margin:-6px 0 18px}
+.modal-pot-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.modal-pot-card{background:var(--cream);border:1px solid rgba(0,0,0,.05);padding:16px 14px;text-align:center;transition:all .3s}
+.modal-pot-card:hover{border-color:var(--sage);transform:translateY(-3px);box-shadow:var(--card-shadow)}
+.modal-pot-thumb{height:96px;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:12px}
+.modal-pot-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;line-height:1.25;margin-bottom:5px}
+.modal-pot-meta{font-size:12.5px;color:var(--charcoal-soft);margin-bottom:13px}
+.modal-pot-card .btn-add.small{padding:11px 14px;font-size:11px}
+
+/* ─── Checkout suggestion cards ─── */
+.suggest-fit{font-size:11px;color:var(--sage);font-weight:600;letter-spacing:.3px;margin-bottom:4px}
+
+@media(max-width:768px){
+  .crumb-here{font-size:20px}
+  .modal-pot-row{grid-template-columns:repeat(2,1fr)}
+  .stock-banner{letter-spacing:2px;font-size:10px}
+}
+
+/* ─── Map ─────────────────────────────────────────────────── */
+.map-link{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--forest);border-bottom:1px solid rgba(45,90,39,.3);padding-bottom:2px;transition:opacity .3s}
+.map-link:hover{opacity:.65}
+.map-embed{margin:8px 0 30px;border:1px solid rgba(0,0,0,.08);overflow:hidden;line-height:0;background:var(--sand)}
+.map-embed iframe{width:100%;height:280px;border:0;display:block;filter:saturate(.92)}
+
+/* ─── "All categories" reads as a pill too ───────────────── */
+.crumb-back{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid rgba(0,0,0,.1);font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--forest);padding:9px 18px;transition:all .3s}
+.crumb-back:hover{background:var(--forest);border-color:var(--forest);color:#fff;opacity:1;transform:translateX(-2px)}
+
+@media(max-width:768px){.map-embed iframe{height:220px}}
+
+/* ─── An added pot looks added ────────────────────────────── */
+.pot-card-actions{min-height:34px}
+.pot-added{display:flex;flex-direction:column;align-items:center;gap:5px}
+.pot-added-tick{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--forest)}
+.qty-stepper.tiny{display:inline-flex;align-items:center;gap:2px;border:1px solid rgba(45,90,39,.25);background:var(--white)}
+.qty-stepper.tiny .qty-btn{width:22px;height:22px;font-size:13px;line-height:1;background:none;border:none;color:var(--forest)}
+.qty-stepper.tiny .qty-value{font-size:11px;font-weight:700;min-width:16px;text-align:center}
+.pot-card.is-added{border-color:var(--forest);background:rgba(122,158,111,.08)}
+
+/* Which plant a pot was picked for */
+.cart-line-pair,.co-pair{font-size:11px;color:var(--sage);font-weight:600;letter-spacing:.2px;margin-top:2px}
+
+/* ─── Gift block ──────────────────────────────────────────── */
+.gift-toggle{display:flex;align-items:center;gap:14px;cursor:pointer;padding:18px 20px;border:1.5px solid rgba(0,0,0,.1);background:var(--white);transition:all .3s}
+.gift-toggle:hover{border-color:var(--sage)}
+.gift-toggle input{width:20px;height:20px;accent-color:var(--forest);flex:0 0 auto;cursor:pointer}
+.gift-toggle-mark{font-size:26px;line-height:1}
+.gift-toggle-text{display:flex;flex-direction:column;gap:2px}
+.gift-toggle-text strong{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--charcoal)}
+.gift-toggle-text em{font-style:normal;font-size:12.5px;color:var(--charcoal-soft)}
+.gift-toggle:has(input:checked){border-color:var(--forest);background:rgba(122,158,111,.09);box-shadow:inset 3px 0 0 var(--forest)}
+
+.gift-extras{margin-top:14px}
+.gift-extras-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-bottom:16px}
+.gift-extra{display:flex;align-items:center;gap:11px;padding:13px 14px;border:1.5px solid rgba(0,0,0,.09);background:var(--white);cursor:pointer;transition:all .25s}
+.gift-extra:hover{border-color:var(--sage);transform:translateY(-2px)}
+.gift-extra.chosen{border-color:var(--forest);background:rgba(122,158,111,.1)}
+.gift-extra input{width:17px;height:17px;accent-color:var(--forest);flex:0 0 auto;cursor:pointer}
+.gift-extra-emoji{font-size:20px;line-height:1}
+.gift-extra-text{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.gift-extra-text strong{font-size:13.5px;font-weight:600;line-height:1.25}
+.gift-extra-text em{font-style:normal;font-size:11.5px;color:var(--charcoal-soft)}
+.gift-extra-price{font-size:13px;font-weight:700;color:var(--forest);white-space:nowrap}
+
+@media(max-width:768px){
+  .gift-extras-grid{grid-template-columns:1fr}
+  .gift-toggle{padding:15px 16px}
+  .gift-toggle-text strong{font-size:19px}
 }

@@ -33,7 +33,7 @@
       <header class="checkout-head" id="checkout-head">
         <div class="section-eyebrow">Step 2 of 3</div>
         <h2 class="section-title">Check your <em>order</em></h2>
-        <p class="checkout-lede">Change quantities, add your details, and we'll turn it into a PDF order summary that goes straight to the nursery on WhatsApp. No payment happens here — we confirm the total and delivery with you first.</p>
+        <p class="checkout-lede">Change quantities, add your details, and we'll turn it into a PDF order summary that goes straight to the nursery on WhatsApp. No payment happens on this page — we confirm the total and delivery with you first, then send you the payment details on WhatsApp.</p>
       </header>
 
       <div class="checkout-grid" id="checkout-live">
@@ -44,7 +44,7 @@
           <div id="checkout-lines"></div>
 
           <div class="suggest-block" id="suggest-block" hidden>
-            <h3 class="block-title">Goes well with this</h3>
+            <h3 class="block-title">Pots that fit your plants</h3>
             <div class="suggest-row" id="suggest-row"></div>
           </div>
 
@@ -55,15 +55,22 @@
               <textarea id="order-notes" class="contact-textarea" rows="3"
                 placeholder="Pot colour preference, delivery timing, a landmark near your address…"></textarea>
             </label>
-            <label class="check-row">
+            <label class="gift-toggle" id="gift-toggle">
               <input type="checkbox" id="is-gift">
-              <span>This order is a gift</span>
+              <span class="gift-toggle-mark">🎁</span>
+              <span class="gift-toggle-text">
+                <strong>This order is a gift</strong>
+                <em>Wrapping, a bag and a handwritten tag are available</em>
+              </span>
             </label>
-            <label class="field" id="gift-field" hidden>
-              <span class="field-label">Message on the gift card</span>
-              <input type="text" id="gift-message" class="contact-input" maxlength="120"
-                placeholder="Happy housewarming, Meera!">
-            </label>
+            <div class="gift-extras" id="gift-extras" hidden>
+              <div class="gift-extras-grid" id="gift-extras-grid"></div>
+              <label class="field" id="gift-field" hidden>
+                <span class="field-label">Message on the gift tag</span>
+                <input type="text" id="gift-message" class="contact-input" maxlength="120"
+                  placeholder="Happy housewarming, Meera!">
+              </label>
+            </div>
           </div>
         </section>
 
@@ -142,9 +149,9 @@
           <li id="pdf-step">
             <span class="done-step-num">1</span>
             <div>
-              <strong>Your PDF has been saved</strong>
-              <p>Check your Downloads folder. Keep it for your records.</p>
-              <button class="btn-outline btn-sm" id="redownload">Download the PDF again</button>
+              <strong id="delivery-title">Sending your order to the nursery…</strong>
+              <p id="delivery-note">This takes a moment. You don't need to do anything.</p>
+              <button class="btn-outline btn-sm" id="redownload" hidden>Download the PDF</button>
             </div>
           </li>
           <li>
@@ -153,13 +160,6 @@
               <strong>WhatsApp is opening with your order typed out</strong>
               <p>If the tab was blocked, open it here. Press send in WhatsApp to place the order.</p>
               <button class="btn-forest btn-sm" id="reopen-whatsapp">Open WhatsApp</button>
-            </div>
-          </li>
-          <li>
-            <span class="done-step-num">3</span>
-            <div>
-              <strong>Attach the PDF in the chat</strong>
-              <p>Tap the 📎 clip in WhatsApp, pick the downloaded PDF, and send it along with the message. This step is optional — the message already has everything.</p>
             </div>
           </li>
         </ol>
@@ -186,6 +186,7 @@
 
   <script src="vendor/jspdf.umd.min.js"></script>
   <script src="catalog.js"></script>
+  <script src="data.js"></script>
   <script src="cart.js"></script>
   <script src="checkout.js"></script>
 </body>

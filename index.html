@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -22,9 +22,9 @@
       </div>
       <div class="navbar-links">
         <button class="nav-btn" data-scroll-to="home">Home</button>
-        <button class="nav-btn" data-scroll-to="about">About</button>
         <button class="nav-btn" data-scroll-to="gallery">Gallery</button>
-        <button class="nav-btn" data-scroll-to="categories">Categories</button>
+      <button class="nav-btn" data-scroll-to="about">About</button>
+        
         <button class="nav-btn" data-scroll-to="reviews">Reviews</button>
         <button class="nav-btn" data-scroll-to="contact">Contact</button>
       </div>
@@ -46,9 +46,9 @@
     </div>
     <div class="mobile-menu" id="mobile-menu">
       <button class="nav-btn" data-scroll-to="home">Home</button>
-      <button class="nav-btn" data-scroll-to="about">About</button>
       <button class="nav-btn" data-scroll-to="gallery">Gallery</button>
-      <button class="nav-btn" data-scroll-to="categories">Categories</button>
+      <button class="nav-btn" data-scroll-to="about">About</button>
+      
       <button class="nav-btn" data-scroll-to="reviews">Reviews</button>
       <button class="nav-btn" data-scroll-to="contact">Contact</button>
       <a class="nav-btn" href="checkout.html">Checkout →</a>
@@ -83,6 +83,50 @@
   </section>
 
   <!-- ═══ MARQUEE ═══ -->
+  </div>
+
+  <section class="gallery" id="gallery">
+    <div class="gallery-inner">
+      <div class="gallery-header fade-up" id="gallery-header">
+        <div class="section-eyebrow center" id="gallery-eyebrow">Gallery</div>
+        <h2 class="section-title" style="text-align:center" id="gallery-title">Our <em>Bestsellers</em></h2>
+        <p id="gallery-blurb">Hand-picked favourites loved by our customers. Each plant is nurtured with care and ready to thrive in your home.</p>
+      </div>
+      <!-- Main categories — filled in from your Google Sheets -->
+      <div class="gallery-filters fade-up stagger-2" id="gallery-filters">
+        <button class="gallery-tag active" data-main="all">All</button>
+      </div>
+
+      <!-- Plant categories as tiles — filled in from your sheets -->
+      <div class="categories-grid gallery-cats" id="gallery-subcats" hidden></div>
+
+      <div class="gallery-crumb" id="gallery-crumb" hidden></div>
+
+      <div class="gallery-toolbar fade-up stagger-3">
+        <div class="search-field">
+          <span class="search-icon">🔍</span>
+          <input type="search" id="gallery-search" placeholder="Search plants, pots, trays…" aria-label="Search the nursery">
+        </div>
+        <div class="toolbar-right">
+          <span class="gallery-count" id="gallery-count"></span>
+          <label class="sort-field">
+            <span>Sort</span>
+            <select id="gallery-sort" aria-label="Sort products">
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: low to high</option>
+              <option value="price-high">Price: high to low</option>
+              <option value="name">Name: A to Z</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="gallery-status" id="gallery-status" hidden></div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+      <div class="gallery-more" id="gallery-more" hidden></div>
+      <p class="gallery-note">Prices are per piece. Add what you like, then send the order on WhatsApp</p>
+    </div>
+  </section>
+
   <div class="marquee-section">
     <div class="marquee-track">
       <span class="marquee-item">Indoor Plants <span class="marquee-dot">✦</span></span>
@@ -100,9 +144,7 @@
       <span class="marquee-item">Plant Gifting <span class="marquee-dot">✦</span></span>
       <span class="marquee-item">Home Décor <span class="marquee-dot">✦</span></span>
     </div>
-  </div>
 
-  <!-- ═══ ABOUT ═══ -->
   <section class="about" id="about">
     <div class="about-inner">
       <div class="about-text fade-up">
@@ -133,61 +175,6 @@
   </div>
 
   <!-- ═══ GALLERY / BESTSELLERS ═══ -->
-  <section class="gallery" id="gallery">
-    <div class="gallery-inner">
-      <div class="gallery-header fade-up">
-        <div class="section-eyebrow center">Gallery</div>
-        <h2 class="section-title" style="text-align:center">Our <em>Bestsellers</em></h2>
-        <p>Hand-picked favourites loved by our customers. Each plant is nurtured with care and ready to thrive in your home.</p>
-      </div>
-      <div class="gallery-filters fade-up stagger-2">
-        <button class="gallery-tag active" data-filter="all">All</button>
-        <button class="gallery-tag" data-filter="indoor">Indoor Plants</button>
-        <button class="gallery-tag" data-filter="succulent">Succulents</button>
-        <button class="gallery-tag" data-filter="pots">Ceramic Pots</button>
-        <button class="gallery-tag" data-filter="trays">Succulent Trays</button>
-        <button class="gallery-tag" data-filter="trending">Trending</button>
-        <button class="gallery-tag" data-filter="saved">♥ Saved</button>
-      </div>
-      <div class="gallery-toolbar fade-up stagger-3">
-        <div class="search-field">
-          <span class="search-icon">🔍</span>
-          <input type="search" id="gallery-search" placeholder="Search plants, pots, trays…" aria-label="Search the nursery">
-        </div>
-        <div class="toolbar-right">
-          <span class="gallery-count" id="gallery-count"></span>
-          <label class="sort-field">
-            <span>Sort</span>
-            <select id="gallery-sort" aria-label="Sort products">
-              <option value="featured">Featured</option>
-              <option value="price-low">Price: low to high</option>
-              <option value="price-high">Price: high to low</option>
-              <option value="name">Name: A to Z</option>
-            </select>
-          </label>
-        </div>
-      </div>
-      <div class="gallery-grid" id="gallery-grid"></div>
-      <p class="gallery-note">Prices are per piece. Add what you like, then send the order on WhatsApp — you pay on pickup or delivery.</p>
-    </div>
-  </section>
-
-  <!-- ═══ CATEGORIES ═══ -->
-  <section class="categories" id="categories">
-    <div class="categories-inner">
-      <div class="categories-header fade-up">
-        <div class="section-eyebrow center">What We Offer</div>
-        <h2 class="section-title" style="text-align:center">Our <em>Specialities</em></h2>
-      </div>
-      <div class="categories-grid">
-        <div class="cat-card fade-up stagger-1"><div class="cat-card-icon">🌿</div><h3 class="cat-card-title serif">Indoor Plants</h3><div class="cat-card-count">120+</div><p class="cat-card-desc">Air-purifying greenery for every corner of your home</p></div>
-        <div class="cat-card fade-up stagger-2"><div class="cat-card-icon">🌵</div><h3 class="cat-card-title serif">Succulents</h3><div class="cat-card-count">80+</div><p class="cat-card-desc">Low-maintenance beauties in stunning varieties</p></div>
-        <div class="cat-card fade-up stagger-3"><div class="cat-card-icon">🪴</div><h3 class="cat-card-title serif">Succulent Trays</h3><div class="cat-card-count">40+</div><p class="cat-card-desc">Curated arrangements for instant impact</p></div>
-        <div class="cat-card fade-up stagger-4"><div class="cat-card-icon">🏺</div><h3 class="cat-card-title serif">Ceramic Pots</h3><div class="cat-card-count">60+</div><p class="cat-card-desc">Handcrafted planters to complement your greens</p></div>
-      </div>
-    </div>
-  </section>
-
   <!-- ═══ REVIEWS ═══ -->
   <section class="reviews" id="reviews">
     <div class="reviews-inner">
@@ -229,7 +216,14 @@
       <div class="contact-grid">
         <div class="fade-up">
           <h3 class="serif" style="font-size:28px;font-weight:600;margin-bottom:28px">Nursery Details</h3>
-          <div class="contact-detail"><span class="contact-detail-icon">📍</span><div><div class="contact-detail-label">Address</div><div class="contact-detail-value">9FB Scheme No 94, Near Bangali Square, Ring Road, Bengali Chowk, Indore — 452016</div></div></div>
+          <div class="contact-detail"><span class="contact-detail-icon">📍</span><div><div class="contact-detail-label">Address</div><div class="contact-detail-value">9FB Scheme No 94, Near Bangali Square, Ring Road, Bengali Chowk, Indore — 452016</div>
+            <a class="map-link" href="https://www.google.com/maps/dir//Green+View+Concepts,+9FB,+Eastern+Ring+Rd,+Scheme+94,+Indore,+Madhya+Pradesh+452016/@22.7163135,75.9064517,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x39631d8bda29249b:0x54bb52b5de748511!2m2!1d75.9064517!2d22.7163135" target="_blank" rel="noopener noreferrer">Get directions →</a>
+          </div></div>
+          <div class="map-embed">
+            <iframe title="Green View Concepts on Google Maps" loading="lazy" allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=Green+View+Concepts,+9FB,+Eastern+Ring+Rd,+Scheme+94,+Indore,+Madhya+Pradesh+452016&z=16&output=embed"></iframe>
+          </div>
           <div class="contact-detail"><span class="contact-detail-icon">📞</span><div><div class="contact-detail-label">Phone</div><div class="contact-detail-value">+91 96177 65000</div></div></div>
           <div class="contact-detail"><span class="contact-detail-icon">💬</span><div><div class="contact-detail-label">WhatsApp</div><div class="contact-detail-value">+91 9617765000</div></div></div>
           <div class="contact-detail"><span class="contact-detail-icon">✉️</span><div><div class="contact-detail-label">Email</div><div class="contact-detail-value">greenviewconcepts@gmail.com</div></div></div>
@@ -262,6 +256,7 @@
   </section>
 
   <!-- ═══ FOOTER ═══ -->
+  <!-- ═══ ABOUT ═══ -->
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-grid">
@@ -343,6 +338,7 @@
   </div>
 
   <script src="catalog.js"></script>
+  <script src="data.js"></script>
   <script src="cart.js"></script>
   <script src="script.js"></script>
 </body>

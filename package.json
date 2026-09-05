@@ -2,16 +2,22 @@
     "name": "green-view-concepts",
     "version": "1.0.0",
     "scripts": {
-        "dev": "serve . -l 3000",
-        "start": "serve ."
+      "dev": "serve . -l 3000",
+      "start": "serve .",
+      "test": "node tests/run.js && node tests/dom.js && node tests/checkout.js"
     },
     "devDependencies": {
-        "serve": "^14.2.6"
+      "serve": "^14.2.6",
+      "jsdom": "^30.0.0"
     },
-    "description": "",
+    "description": "Green View Concepts Nursery \u2014 catalogue driven by Google Sheets",
     "main": "script.js",
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "type": "commonjs"
-}
+    "type": "commonjs",
+    "overrides": {
+      "brace-expansion": "^1.1.18",
+      "fast-uri": "^3.1.7"
+    }
+  }
