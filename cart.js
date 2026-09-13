@@ -62,6 +62,9 @@
       bg: p.bg,
       tag: p.tag,
       price: p.price,
+      /* First photo, if it has already been resolved. Lets the cart
+         show a thumbnail even when the sheet can't be reached. */
+      img: (p.images && p.images[0] && p.images[0].url) || undefined,
     };
   }
 
@@ -96,6 +99,7 @@
           missing: !p,
           /* Set when this pot was picked from a plant's suggestions. */
           pairedWith: (line.meta && line.meta.forPlantName) || "",
+          img: (p && p.images && p.images[0] && p.images[0].url) || snap.img || "",
         };
       });
     },

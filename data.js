@@ -603,8 +603,20 @@
     /* Resolves to an array of {url, alt}. Empty means "use the
        placeholder" — which is exactly what happens before any
        photo links are added to the sheet. */
+    const inFlight = Object.create(null);
+  
     async function images(product) {
       if (product.images) return product.images;
+  
+      /* Several cards can ask for the same photos at the same moment —
+         a pot suggested under a dozen plants, say. One request each. */
+      if (inFlight[product.id]) return inFlight[product.id];
+      inFlight[product.id] = resolveImages(product);
+      try { return await inFlight[product.id]; }
+      finally { delete inFlight[product.id]; }
+    }
+  
+    async function resolveImages(product) {
   
       const parts = String(product.imageUrl || "")
         .split(/[\s,;\n]+/).map(s => s.trim()).filter(Boolean);

@@ -135,11 +135,11 @@ input:focus,textarea:focus{outline:none;border-color:var(--forest)!important}
 .plant-card:hover{transform:translateY(-8px);box-shadow:var(--card-shadow-hover)}
 
 /* Carousel */
-.carousel{position:relative;height:260px;overflow:hidden;background:linear-gradient(135deg,var(--forest),var(--olive))}
+.carousel{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--sand)}
 .carousel-slides{position:relative;width:100%;height:100%}
 .carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease-in-out;display:flex;align-items:center;justify-content:center}
 .carousel-slide.active{opacity:1}
-.carousel-slide img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.carousel-slide img{position:relative;inset:0;display:block;width:100%;height:auto;object-fit:contain;object-position:center}
 .carousel-emoji{font-size:72px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.15));transition:transform .5s}
 .plant-card:hover .carousel-emoji{transform:scale(1.15) rotate(-5deg)}
 
@@ -260,7 +260,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--forest)!important}
   .hero-stats{flex-direction:column;gap:20px!important}
   .about-inner{grid-template-columns:1fr}
   .contact-grid,.reviews-grid{grid-template-columns:1fr}
-  .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);gap:12px}
   .hero-title{font-size:clamp(40px,10vw,60px)}
   .footer-bottom{flex-direction:column;text-align:center}
   .setup-banner{margin:0 16px 40px}
@@ -357,7 +357,7 @@ body.no-scroll{overflow:hidden}
 .cart-close:hover{color:var(--forest)}
 .cart-body{flex:1;overflow-y:auto;padding:8px 26px}
 .cart-line{display:flex;gap:15px;padding:20px 0;border-bottom:1px solid rgba(0,0,0,.06)}
-.cart-line-thumb{width:62px;height:62px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:27px}
+.cart-line-thumb{overflow:hidden;position:relative;width:62px;height:62px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:27px}
 .cart-line-info{flex:1;min-width:0}
 .cart-line-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;line-height:1.25;margin-bottom:2px}
 .cart-line-unit{font-size:12px;color:var(--charcoal-soft);margin-bottom:10px}
@@ -384,15 +384,15 @@ body.no-scroll{overflow:hidden}
 .modal.open{visibility:visible}
 .modal-scrim{position:absolute;inset:0;background:rgba(26,61,22,.45);backdrop-filter:blur(3px);opacity:0;transition:opacity .3s}
 .modal.open .modal-scrim{opacity:1}
-.modal-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-48%) scale(.97);width:min(760px,92vw);max-height:88vh;overflow-y:auto;background:var(--white);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1)}
+.modal-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-48%) scale(.97);width:min(820px,92vw);max-height:88vh;overflow:hidden;background:var(--white);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1)}
 .modal.open .modal-panel{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .modal-close{position:absolute;top:14px;right:14px;z-index:5;width:36px;height:36px;border:none;border-radius:50%;background:rgba(255,255,255,.9);font-size:15px;color:var(--charcoal)}
 .modal-close:hover{background:var(--sand)}
-.modal-body{display:grid;grid-template-columns:1fr 1.15fr}
-.modal-media{position:relative;min-height:300px;display:flex;align-items:center;justify-content:center}
+.modal-body{display:flex;align-items:stretch;max-height:88vh}
+.modal-media{position:relative;flex:0 0 44%;min-height:300px;display:flex;align-items:center;justify-content:center}
 .modal-emoji{font-size:96px;filter:drop-shadow(0 6px 16px rgba(0,0,0,.18))}
 .modal-tag{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.92);padding:5px 14px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--forest);font-style:normal}
-.modal-info{padding:34px 34px 30px}
+.modal-info{flex:1 1 auto;min-width:0;min-height:0;overflow-y:auto;padding:34px 34px 30px}
 .modal-name{font-size:30px;font-weight:600;line-height:1.15;margin-bottom:6px}
 .modal-desc{font-size:14px;color:var(--charcoal-soft);margin-bottom:14px}
 .modal-price{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--forest);margin-bottom:22px}
@@ -485,7 +485,6 @@ body.no-scroll{overflow:hidden}
 @media(max-width:900px){
   .checkout-grid{grid-template-columns:1fr;gap:32px}
   .summary-card{position:static}
-  .modal-body{grid-template-columns:1fr}
   .modal-media{min-height:210px}
   .modal-emoji{font-size:74px}
 }
@@ -574,7 +573,7 @@ body.no-scroll{overflow:hidden}
 .stock-banner{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);z-index:7;background:rgba(26,61,22,.88);color:#fff;text-align:center;padding:11px 8px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;pointer-events:none}
 .plant-card.is-out .carousel{filter:grayscale(.55);opacity:.72}
 .plant-card.is-out .plant-card-price{color:var(--charcoal-soft)}
-.cart-line.is-out .cart-line-thumb{filter:grayscale(.5);opacity:.75}
+.cart-line.is-out .cart-line-thumb{overflow:hidden;position:relative;filter:grayscale(.5);opacity:.75}
 .cart-line-flag,.co-flag{font-size:11px;font-weight:600;letter-spacing:.4px;color:var(--terra);margin-top:2px}
 
 /* ─── Loading skeletons ─── */
@@ -611,12 +610,14 @@ body.no-scroll{overflow:hidden}
 
 /* ─── Pot suggestions in the quick view ─── */
 .modal-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.modal-media{background:var(--sand)}
-.modal-media .carousel{position:absolute;inset:0;height:100%}
-/* In the detail view the whole photo matters more than filling the box,
-   so nothing is cropped away. */
-.modal-media .carousel-slide img{object-fit:contain;padding:10px}
-.modal-media .carousel-slide{background:rgba(255,255,255,.35);backdrop-filter:blur(2px)}
+/* The photo fills its whole side, edge to edge. The details beside it
+   scroll on their own, so a long pot list can't stretch the panel and
+   strand the picture in white space. */
+.modal-media{background:var(--sand);overflow:hidden}
+.modal-media .carousel{position:absolute;inset:0;height:100%;aspect-ratio:auto;border-radius:0}
+.modal-media .carousel-slide img{object-fit:contain;padding:0}
+.modal-media .modal-photo{object-fit:contain;padding:26px}
+.modal-media .carousel-dots{bottom:16px}
 .modal-media .stock-banner{top:50%}
 .modal-pots{margin-top:28px;padding-top:26px;border-top:1px solid rgba(0,0,0,.08)}
 .modal-pots-note{font-size:13px;color:var(--charcoal-soft);line-height:1.6;margin:-6px 0 18px}
@@ -698,3 +699,42 @@ body.no-scroll{overflow:hidden}
 .footer-social-handles a{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.62);transition:color .3s}
 .footer-social-handles a:hover{color:#fff}
 .footer-social-handles svg{width:15px;height:15px;flex:0 0 auto;opacity:.8}
+
+/* ─── Cart thumbnails ─────────────────────────────────────── */
+.cart-line-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+
+@media(max-width:900px){
+  /* Stacked: the photo becomes a banner and the panel scrolls as one */
+  .modal-panel{overflow-y:auto}
+  .modal-body{flex-direction:column;max-height:none}
+  .modal-media{flex:0 0 auto;aspect-ratio:16/11;min-height:0}
+  .modal-info{overflow:visible;max-height:none}
+}
+
+/* ─── Phone: two cards a row, so scale the card down to suit ─── */
+@media(max-width:768px){
+  .plant-card-body{padding:14px 13px 16px}
+  .plant-card-name{font-size:17px;line-height:1.2}
+  .plant-card-desc{font-size:11.5px;line-height:1.45;margin-bottom:9px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .card-meta{gap:5px;margin-bottom:10px}
+  .card-code{font-size:9px;letter-spacing:1.1px;padding:2px 6px}
+  .card-size{font-size:10px;padding:2px 6px}
+  .plant-card-footer{flex-direction:column;align-items:stretch;gap:10px}
+  .plant-card-price{font-size:19px}
+  .plant-card-footer .btn-add{width:100%;padding:11px 8px;font-size:10px;letter-spacing:1.2px}
+  .card-save{width:32px;height:32px;font-size:14px;top:10px;right:10px}
+  .plant-card-tag{font-size:9px;letter-spacing:1.1px;padding:4px 9px}
+  .stock-banner{font-size:9px;letter-spacing:1.6px;padding:8px 6px}
+  .card-media-hint{font-size:9px;letter-spacing:1.6px}
+  .pot-card{flex:0 0 96px}
+  .pot-card-media{height:70px}
+
+  /* The detail photo gets a portrait frame here too */
+  .modal-media{aspect-ratio:4/5;max-height:56vh}
+}
+
+@media(max-width:380px){
+  .gallery-grid{gap:10px}
+  .plant-card-name{font-size:15.5px}
+}

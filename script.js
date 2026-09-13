@@ -26,8 +26,6 @@
      page: 1,
    };
    
-   /* Cards whose photos we've already gone looking for */
-   const hydrated = Object.create(null);
    let mediaObserver = null;
    
    /* ─── DOM READY ───────────────────────────────────────────── */
@@ -159,7 +157,9 @@
    function carouselHTML(product, images) {
      if (!images || !images.length) return placeholderHTML(product);
    
-     const bg = `background: linear-gradient(135deg, ${product.bg}, ${product.bg}dd)`;
+     /* A photo shown whole leaves a little margin. A soft neutral reads as
+        a frame; the category green would read as a green block. */
+     const bg = "background: var(--sand)";
    
      const slides = images.map((img, i) =>
        `<div class="carousel-slide ${i === 0 ? "active" : ""}" data-index="${i}">
@@ -240,13 +240,32 @@
      grid.querySelectorAll(".plant-card").forEach(card => mediaObserver.observe(card));
    }
    
+   function applyImages(card, product, images) {
+     if (!images.length || !card.isConnected) return;
+     const holder = card.querySelector(".carousel");
+     if (!holder || holder.dataset.carousel === product.id) return;
+   
+     const temp = document.createElement("div");
+     temp.innerHTML = carouselHTML(product, images);
+     const fresh = temp.firstElementChild;
+     holder.replaceWith(fresh);
+     initCarousel(fresh);
+   }
+   
+   /* Called every time a card appears, including after filtering or
+      "show more" — those build brand new elements that start on the
+      placeholder. Photos already fetched are reapplied straight away;
+      only the first sighting of a plant costs a request. */
    async function hydrateCardMedia(card) {
      const id = card.dataset.id;
      const product = GVC.product(id);
-     if (!product || hydrated[id]) return;
-     hydrated[id] = true;
+     if (!product || !product.imageUrl) return;      // placeholder is already correct
    
-     if (!product.imageUrl) return;                   // placeholder is already correct
+     /* Already resolved — paint immediately, no flash of placeholder. */
+     if (product.images) {
+       applyImages(card, product, product.images);
+       return;
+     }
    
      let images = [];
      try {
@@ -255,16 +274,7 @@
        console.warn("Photos unavailable for " + id + ":", err.message);
        return;                                        // keep the placeholder, break nothing
      }
-     if (!images.length || !card.isConnected) return;
-   
-     const holder = card.querySelector(".carousel");
-     if (!holder) return;
-   
-     const temp = document.createElement("div");
-     temp.innerHTML = carouselHTML(product, images);
-     const fresh = temp.firstElementChild;
-     holder.replaceWith(fresh);
-     initCarousel(fresh);
+     applyImages(card, product, images);
    }
    
    /* ═══════════════════════════════════════════════════════════
@@ -985,7 +995,9 @@
    
      body.innerHTML = lines.map(line => `
        <div class="cart-line ${line.unavailable ? "is-out" : ""}">
-         <div class="cart-line-thumb" style="background:linear-gradient(135deg, ${line.bg}, ${line.bg}dd)">${line.emoji}</div>
+         <div class="cart-line-thumb" data-thumb="${escapeAttr(line.id)}" style="background:linear-gradient(135deg, ${line.bg}, ${line.bg}dd)">${
+           line.img ? `<img src="${escapeAttr(line.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`
+                    : `<span>${line.emoji}</span>`}</div>
          <div class="cart-line-info">
            <div class="cart-line-name">${escapeAttr(line.name)}</div>
            <div class="cart-line-unit">${GVC.money(line.price)} each</div>
@@ -1003,6 +1015,8 @@
          </div>
        </div>`).join("");
    
+     hydrateCartThumbs(lines);
+   
      foot.innerHTML = `
        <div class="cart-subtotal">
          <span>Subtotal · ${count} ${count === 1 ? "item" : "items"}</span>
@@ -1011,6 +1025,25 @@
        <p class="cart-foot-note">${SHOP.deliveryNote}</p>
        <a class="btn-forest cart-checkout" href="checkout.html">Review &amp; checkout →</a>
        <button class="cart-keep" data-close-cart>Keep shopping</button>`;
+   }
+   
+   /* Fetches any cart thumbnails we don't have yet, then fills them in. */
+   async function hydrateCartThumbs(lines) {
+     for (const line of lines) {
+       if (line.img) continue;
+       const product = GVC.product(line.id);
+       if (!product || !product.imageUrl) continue;
+   
+       let images = [];
+       try { images = await GVCData.images(product); }
+       catch (err) { continue; }
+       if (!images.length) continue;
+   
+       document.querySelectorAll(`[data-thumb="${CSS.escape(line.id)}"]`).forEach(box => {
+         box.innerHTML = `<img src="${escapeAttr(images[0].url)}" alt="" loading="lazy"
+           referrerpolicy="no-referrer" onerror="this.remove()">`;
+       });
+     }
    }
    
    /* ═══════════════════════════════════════════════════════════
