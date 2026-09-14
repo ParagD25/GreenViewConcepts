@@ -51,12 +51,36 @@
      renderSuggestions(lines);
    }
    
+   /* The cart remembers a thumbnail when it has one. Anything missing —
+      an older cart, or a plant whose photo hadn't loaded when it was
+      added — is fetched here and filled in. */
+   async function hydrateThumbs(lines) {
+     for (const line of lines) {
+       if (line.img) continue;
+       const product = GVC.product(line.id);
+       if (!product || !product.imageUrl) continue;
+   
+       let images = [];
+       try { images = await GVCData.images(product); }
+       catch (err) { continue; }
+       if (!images.length) continue;
+   
+       document.querySelectorAll(`[data-thumb="${CSS.escape(line.id)}"]`).forEach(box => {
+         const tag = box.querySelector(".co-thumb-tag");
+         box.innerHTML = `<img src="${images[0].url}" alt="" loading="lazy"
+           referrerpolicy="no-referrer" onerror="this.remove()">` + (tag ? tag.outerHTML : "");
+       });
+     }
+   }
+   
    function renderLines(lines) {
      const host = document.getElementById("checkout-lines");
      host.innerHTML = lines.map(line => `
        <div class="co-line">
-         <div class="co-thumb" style="background:linear-gradient(135deg, ${line.bg}, ${line.bg}dd)">
-           <span>${line.emoji}</span>
+         <div class="co-thumb" data-thumb="${line.id}" style="background:linear-gradient(135deg, ${line.bg}, ${line.bg}dd)">
+           ${line.img
+             ? `<img src="${line.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`
+             : `<span>${line.emoji}</span>`}
            <em class="co-thumb-tag">${line.tag}</em>
          </div>
          <div class="co-detail">
@@ -88,6 +112,8 @@
          GVC.toast(`${line ? line.name : "Item"} removed`, "Undo", () => GVC.cart.add(id, qty));
        }
      };
+   
+     hydrateThumbs(lines);
    }
    
    
@@ -586,6 +612,12 @@
      const W = doc.internal.pageSize.getWidth();
      const H = doc.internal.pageSize.getHeight();
      const M = 42;
+   
+     /* The footer rule sits at H-58 with its caption below. Content must
+        stop above that. Every page break in this file measures against
+        BOTTOM rather than guessing at a number. */
+     const FOOT = 72;
+     const BOTTOM = H - FOOT;
      const RIGHT = W - M;
    
      const FOREST = [45, 90, 39];
@@ -672,7 +704,7 @@
        addressLines.forEach((line, i) => doc.text(line, M + 108, ry + i * 12));
      }
    
-     y += panelH + 26;
+     y += panelH + 20;
    
      /* ─── Items table ─── */
      const colNum = M + 14;
@@ -683,15 +715,15 @@
      const itemWidth = 250;
    
      sectionLabel("ITEMS ORDERED", y);
-     y += 14;
+     y += 12;
    
      drawTableHead();
    
      order.lines.forEach((line, i) => {
        const nameLines = doc.splitTextToSize(safe(line.name), itemWidth);
-       const rowH = Math.max(30, 16 + nameLines.length * 12 + 8);
+       const rowH = Math.max(28, 14 + nameLines.length * 12 + 7);
    
-       if (y + rowH > H - 150) {
+       if (y + rowH > BOTTOM) {
          doc.addPage();
          y = 60;
          drawTableHead();
@@ -730,7 +762,13 @@
    
      /* ─── Totals ─── */
      y += 18;
-     if (y > H - 190) { doc.addPage(); y = 60; }
+   
+     /* Items, Subtotal, one row per gift extra, then Delivery — each 20pt,
+        followed by the 34pt total bar. Measured rather than assumed, or
+        adding a gift extra would silently push the block off the page. */
+     const totalLineCount = 3 + (order.extras || []).length;
+     const totalsH = totalLineCount * 20 + 6 + 34;
+     if (y + totalsH > BOTTOM) { doc.addPage(); y = 60; }
    
      const boxX = 300;
      const boxW = RIGHT - boxX;
@@ -766,7 +804,7 @@
        const noteH = 20 + wrappedBits.reduce((sum, w) => sum + w.length * 14, 0) + (wrappedBits.length - 1) * 6;
    
        y += 26;
-       if (y + noteH > H - 90) { doc.addPage(); y = 60; }
+       if (y + noteH + 12 > BOTTOM) { doc.addPage(); y = 60; }
        sectionLabel("NOTES FROM THE CUSTOMER", y);
        y += 12;
    
@@ -786,8 +824,19 @@
      }
    
      /* ─── What happens next ─── */
-     y += 30;
-     if (y > H - 140) { doc.addPage(); y = 60; }
+     const termsH = 16 + 4 * 15;
+     const anchoredY = BOTTOM - termsH;
+   
+     /* This block closes the document, so it sits just above the footer
+        rather than trailing whatever came before it. Every page then ends
+        flush instead of fading into white space. Judged by where it will
+        actually sit, not where it would naturally fall. */
+     if (anchoredY - y >= 18) {
+       y = anchoredY;
+     } else {
+       doc.addPage();
+       y = anchoredY;
+     }
      sectionLabel("WHAT HAPPENS NEXT", y);
      y += 16;
      doc.setFont("helvetica", "normal").setFontSize(9.5);
